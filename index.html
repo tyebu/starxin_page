@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <script src="js/mui.min.js"></script>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+	<link href="css/header.css" rel="stylesheet" />
+	<link href="starfont/iconfont.css" rel="stylesheet" />
+    <script type="text/javascript" charset="utf-8">
+      	mui.init();
+		mui.plusReady(function () {
+		   plus.navigator.setStatusBarBackground("#2AC845") ;
+		   plus.navigator.setStatusBarStyle("light");
+		})
+		
+    </script>
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav title">
+		<h1 class="mui-title title-color"><b>星信</b></h1>
+	</header>
+	<nav class="mui-bar mui-bar-tab">
+		<a class="mui-tab-item mui-active" tab-index="chatlist">
+			<span class="mui-icon iconfont icon-xing-copy"></span>
+			<span class="mui-tab-label">星信</span>
+		</a>
+		<a class="mui-tab-item" tab-index="contact">
+			<!-- <span class="mui-icon mui-icon-phone"></span> -->
+			<span class="mui-icon iconfont icon-tongxunlu-copy"></span>
+			<span class="mui-tab-label">通讯录</span>
+		</a>
+		<a class="mui-tab-item" tab-index="discover">
+			<!-- <span class="mui-icon mui-icon-navigate"></span> -->
+			<span class="mui-icon iconfont icon-zhinanzhen"></span>
+			<span class="mui-tab-label">发现</span>
+		</a>
+		<a class="mui-tab-item" tab-index="profile">
+			<span class="mui-icon iconfont icon-wode"></span>
+			<span class="mui-tab-label">我</span>
+		</a>
+	</nav>
+	<script>
+		var starxinArray = [
+			{
+				pageId:'chatlist',
+				pageUrl:'starxin-chatlist.html'
+			},
+			{
+				pageId:'contact',
+				pageUrl:'starxin-contact.html'
+			},
+			{
+				pageId:'discover',
+				pageUrl:'starxin-discover.html'
+			},
+			{
+				pageId:'profile',
+				pageUrl:'starxin-profile.html'
+			}
+		]
+		var starxinStyle= {
+			top:'44px',
+			bottom:'50px'
+		};
+		mui.plusReady(function() {
+			// 禁止回退
+			mui.back = function() {
+				return false;
+			}
+			// var cid = plus.push.getClientInfo().clientid;
+			var indexWebview = plus.webview.currentWebview();
+			//向当前主页追加子页的四张indexWebview
+			for(var i = 0;i<starxinArray.length;i++) {
+				var starxinPage = plus.webview.create(starxinArray[i].pageUrl, starxinArray[i].pageId,starxinStyle);
+				//隐藏webview窗口
+				/* if(i > 0) {
+					starxinPage.hide();
+				} */
+				starxinPage.hide();
+				// 追加每一个子页面到当前主页面
+				indexWebview.append(starxinPage);
+			}
+			// var currentPage = starxinArray[0];
+			plus.webview.show(starxinArray[0].pageId);
+			//批量绑定tap事件
+			mui(".mui-bar-tab").on('tap','a',function() {
+				var tabIndex = this.getAttribute("tab-index");
+				
+				for(var i = 0;i < starxinArray.length; i++) {
+					/* if(starxinArray[i].pageId == tabIndex) {
+						currentPage = starxinArray[i];
+					} */
+					// 隐藏其他不需要的页面
+					if(starxinArray[i].pageId != tabIndex) {
+						plus.webview.hide(tabIndex);
+					}
+				}
+				plus.webview.show(tabIndex);
+			})
+			// 延时加载
+			setTimeout("initData()", "1000");
+		});
+		// 预加载
+		function initData() {
+			var chatlist = plus.webview.getWebviewById("chatlist");
+			mui.fire(chatlist, "refresh");
+			
+			var profile = plus.webview.getWebviewById("profile");
+			mui.fire(profile, "refresh");
+		}
+	</script>
+</body>
+</html>

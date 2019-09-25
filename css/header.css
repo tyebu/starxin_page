@@ -1,0 +1,10 @@
+.title{
+	background: #2AC845;
+}
+.title-color{
+	color:white;
+}
+.mui-bar-tab .mui-tab-item.mui-active {
+	color:#2AC845;
+}
+
