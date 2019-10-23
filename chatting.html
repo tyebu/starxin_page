@@ -25,7 +25,7 @@
 
 		<header class="mui-bar mui-bar-nav title" style="position: fixed;">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left title-color"></a>
-			<h1 class="mui-title title-color"><b id="chatting-nickname">慕 信</b></h1>
+			<h1 class="mui-title title-color"><b id="chatting-nickname">星信</b></h1>
 		</header>
 
 		<div id="msg-outter" class="mui-content">
@@ -47,8 +47,74 @@
 					<div class="msg-wrapper left">
 						<p class="msg-right-green">好的，没问题！时间地点？</p>
 					</div>
+				</div><div class="friend_lists">
+					<div class="header_img">
+						<img src="css/registLogin/arrow.jpg" width="40px" height="40px" />
+					</div>
+					<div class="msg-wrapper right">
+						<p class="msg-left-white">晚上过来吃饭？</p>
+					</div>
 				</div>
 
+				<div class="me_lists">
+					<div class="header_img">
+						<img src="css/registLogin/arrow.jpg" width="40px" height="40px" />
+					</div>
+					<div class="msg-wrapper left">
+						<p class="msg-right-green">好的，没问题！时间地点？</p>
+					</div>
+				</div>
+				<div class="friend_lists">
+					<div class="header_img">
+						<img src="css/registLogin/arrow.jpg" width="40px" height="40px" />
+					</div>
+					<div class="msg-wrapper right">
+						<p class="msg-left-white">晚上过来吃饭？</p>
+					</div>
+				</div>
+				
+				<div class="me_lists">
+					<div class="header_img">
+						<img src="css/registLogin/arrow.jpg" width="40px" height="40px" />
+					</div>
+					<div class="msg-wrapper left">
+						<p class="msg-right-green">好的，没问题！时间地点？</p>
+					</div>
+				</div>
+				<div class="friend_lists">
+					<div class="header_img">
+						<img src="css/registLogin/arrow.jpg" width="40px" height="40px" />
+					</div>
+					<div class="msg-wrapper right">
+						<p class="msg-left-white">晚上过来吃饭？</p>
+					</div>
+				</div>
+				
+				<div class="me_lists">
+					<div class="header_img">
+						<img src="css/registLogin/arrow.jpg" width="40px" height="40px" />
+					</div>
+					<div class="msg-wrapper left">
+						<p class="msg-right-green">好的，没问题！时间地点？</p>
+					</div>
+				</div>
+				<div class="friend_lists">
+					<div class="header_img">
+						<img src="css/registLogin/arrow.jpg" width="40px" height="40px" />
+					</div>
+					<div class="msg-wrapper right">
+						<p class="msg-left-white">晚上过来吃饭？</p>
+					</div>
+				</div>
+				
+				<div class="me_lists">
+					<div class="header_img">
+						<img src="css/registLogin/arrow.jpg" width="40px" height="40px" />
+					</div>
+					<div class="msg-wrapper left">
+						<p class="msg-right-green">好的，没问题！时间地点？</p>
+					</div>
+				</div>
 			</div>
 		</div>
 		
@@ -66,17 +132,61 @@
 		<script type="text/javascript">
 			// 命名空间
 			(function($, doc) {
-				var me = app.getUserGlobalInfo();
-				var chattingWebview = plus.webview.currentWebview();
-				chattingWebview.setStyle({
-					// 设置连天页面的软键盘样式
-					softinputMode: "adjustResize"
-				});
-				// 获取上一个页面传来的好友属性值
-				var friendUserId = chattingWebview.friendUserId,
-				var friendNickname = chattingWebview.friendNickname,
-				var friendFaceImage = chattingWebview.friendFaceImage
-			})
+				mui.plusReady(function () {
+					var me = app.getUserGlobalInfo();
+					var chattingWebview = plus.webview.currentWebview();
+					chattingWebview.setStyle({
+						// 设置连天页面的软键盘样式
+						softinputMode: "adjustResize"
+					});
+					// 获取上一个页面传来的好友属性值
+					var friendUserId = chattingWebview.friendUserId;
+					var friendNickname = chattingWebview.friendNickname;
+					var friendFaceImage = chattingWebview.friendFaceImage;
+					//设置好友昵称
+					doc.getElementById("chatting-nickname").innerHTML = friendNickname;
+					// 设置聊天记录页面滑动到最底层
+					/* var areaMsg = doc.getElementById("msg");
+					areaMsg.scrollTop = areaMsg.scrollHeight + areaMsg.offsetHeight; */
+					resizeScreen();
+					var msg_text = doc.getElementById("msg-text");
+					var send_btn = doc.getElementById("send");
+					msg_text.addEventListener("input", function() {
+						var msg_text_val = msg_text.value;
+						if (msg_text_val.length > 0) {
+							send.setAttribute("class", "mui-btn-green");
+						} else {
+							send.setAttribute("class", "mui-btn-gray");
+						}
+					});
+					// 当输入软键盘弹出后,对当前窗口进行监听
+					window.addEventListener("resize", function() {
+						resizeScreen();
+					});
+					// 绑定消息发送事件
+					send_btn.addEventListener("tap", function() {
+						// 获得网络连接状态
+						var netType = plus.networkinfo.getCurrentType();
+						if(netType == 0 || netType == 2) {
+							console.log("未连接到网络");
+							app.showToast("未连接到网络", "error");
+							return;
+						}
+						if(msg_text.length == 0) {
+							app.showToast("请输入内容", "error");
+							return;
+						}
+					});
+					// 重新调整聊天窗口
+					function resizeScreen() {
+						var areaMsg = doc.getElementById("msg");
+						// 设置聊天记录页面滑动到最底层
+						areaMsg.scrollTop = areaMsg.scrollHeight + areaMsg.offsetHeight;
+						var msg_outter = doc.getElementById("msg-outter");
+						msg_outter.style.paddingBottom = "50px";
+					}
+				})
+			}(mui, document));
 		</script>
 	</body>
 

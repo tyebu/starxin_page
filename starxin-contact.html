@@ -164,7 +164,7 @@
 				clearContactArray();
 				
 				// 为好友通讯录批量绑定点击事件
-				mui.on("#contactList", ".chat-with-friend", function(e) {
+				mui("#contactList").on("tap",".chat-with-friend", function(e) {
 					var friendUserId = this.getAttribute("friendUserId");
 					var friendNickname = this.getAttribute("friendNickname");
 					var friendFaceImage = this.getAttribute("friendFaceImage");

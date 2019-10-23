@@ -1,5 +1,4 @@
 window.app = {
-	
 	/**
 	 * netty服务后端发布的url地址
 	 */
