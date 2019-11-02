@@ -60,7 +60,7 @@
 			<ul class="mui-table-view">
 				<li class="mui-table-view-cell mui-media">
 					<a href="javascript:;">
-						<div class="mui-media-body" style="text-align: center;">
+						<div class="mui-media-body" id="logout" style="text-align: center;">
 							退出登录
 						</div>
 					</a>
@@ -92,6 +92,11 @@
 				window.addEventListener('refresh', function() {
 					refreshUserInfo();
 				});
+				var out = document.getElementById("logout");
+				out.addEventListener('tap', function() {
+					app.userLogout();
+					mui.openWindow('login.html', 'login');
+				})
 			});
 			
 			// 刷新用户信息

@@ -30,8 +30,7 @@
 
 		<div id="msg-outter" class="mui-content">
 			<div id='msg'>
-				
-				<div class="friend_lists">
+				<!-- <div class="friend_lists">
 					<div class="header_img">
 						<img src="css/registLogin/arrow.jpg" width="40px" height="40px" />
 					</div>
@@ -47,74 +46,7 @@
 					<div class="msg-wrapper left">
 						<p class="msg-right-green">好的，没问题！时间地点？</p>
 					</div>
-				</div><div class="friend_lists">
-					<div class="header_img">
-						<img src="css/registLogin/arrow.jpg" width="40px" height="40px" />
-					</div>
-					<div class="msg-wrapper right">
-						<p class="msg-left-white">晚上过来吃饭？</p>
-					</div>
-				</div>
-
-				<div class="me_lists">
-					<div class="header_img">
-						<img src="css/registLogin/arrow.jpg" width="40px" height="40px" />
-					</div>
-					<div class="msg-wrapper left">
-						<p class="msg-right-green">好的，没问题！时间地点？</p>
-					</div>
-				</div>
-				<div class="friend_lists">
-					<div class="header_img">
-						<img src="css/registLogin/arrow.jpg" width="40px" height="40px" />
-					</div>
-					<div class="msg-wrapper right">
-						<p class="msg-left-white">晚上过来吃饭？</p>
-					</div>
-				</div>
-				
-				<div class="me_lists">
-					<div class="header_img">
-						<img src="css/registLogin/arrow.jpg" width="40px" height="40px" />
-					</div>
-					<div class="msg-wrapper left">
-						<p class="msg-right-green">好的，没问题！时间地点？</p>
-					</div>
-				</div>
-				<div class="friend_lists">
-					<div class="header_img">
-						<img src="css/registLogin/arrow.jpg" width="40px" height="40px" />
-					</div>
-					<div class="msg-wrapper right">
-						<p class="msg-left-white">晚上过来吃饭？</p>
-					</div>
-				</div>
-				
-				<div class="me_lists">
-					<div class="header_img">
-						<img src="css/registLogin/arrow.jpg" width="40px" height="40px" />
-					</div>
-					<div class="msg-wrapper left">
-						<p class="msg-right-green">好的，没问题！时间地点？</p>
-					</div>
-				</div>
-				<div class="friend_lists">
-					<div class="header_img">
-						<img src="css/registLogin/arrow.jpg" width="40px" height="40px" />
-					</div>
-					<div class="msg-wrapper right">
-						<p class="msg-left-white">晚上过来吃饭？</p>
-					</div>
-				</div>
-				
-				<div class="me_lists">
-					<div class="header_img">
-						<img src="css/registLogin/arrow.jpg" width="40px" height="40px" />
-					</div>
-					<div class="msg-wrapper left">
-						<p class="msg-right-green">好的，没问题！时间地点？</p>
-					</div>
-				</div>
+				</div> -->
 			</div>
 		</div>
 		
@@ -131,62 +63,163 @@
 		<script type="application/javascript" src="js/app.js"></script>
 		<script type="text/javascript">
 			// 命名空间
-			(function($, doc) {
-				mui.plusReady(function () {
-					var me = app.getUserGlobalInfo();
-					var chattingWebview = plus.webview.currentWebview();
-					chattingWebview.setStyle({
-						// 设置连天页面的软键盘样式
-						softinputMode: "adjustResize"
-					});
-					// 获取上一个页面传来的好友属性值
-					var friendUserId = chattingWebview.friendUserId;
-					var friendNickname = chattingWebview.friendNickname;
-					var friendFaceImage = chattingWebview.friendFaceImage;
-					//设置好友昵称
-					doc.getElementById("chatting-nickname").innerHTML = friendNickname;
-					// 设置聊天记录页面滑动到最底层
-					/* var areaMsg = doc.getElementById("msg");
-					areaMsg.scrollTop = areaMsg.scrollHeight + areaMsg.offsetHeight; */
-					resizeScreen();
-					var msg_text = doc.getElementById("msg-text");
-					var send_btn = doc.getElementById("send");
-					msg_text.addEventListener("input", function() {
-						var msg_text_val = msg_text.value;
-						if (msg_text_val.length > 0) {
-							send.setAttribute("class", "mui-btn-green");
-						} else {
-							send.setAttribute("class", "mui-btn-gray");
-						}
-					});
-					// 当输入软键盘弹出后,对当前窗口进行监听
-					window.addEventListener("resize", function() {
-						resizeScreen();
-					});
-					// 绑定消息发送事件
-					send_btn.addEventListener("tap", function() {
-						// 获得网络连接状态
-						var netType = plus.networkinfo.getCurrentType();
-						if(netType == 0 || netType == 2) {
-							console.log("未连接到网络");
-							app.showToast("未连接到网络", "error");
-							return;
-						}
-						if(msg_text.length == 0) {
-							app.showToast("请输入内容", "error");
-							return;
-						}
-					});
-					// 重新调整聊天窗口
-					function resizeScreen() {
-						var areaMsg = doc.getElementById("msg");
-						// 设置聊天记录页面滑动到最底层
-						areaMsg.scrollTop = areaMsg.scrollHeight + areaMsg.offsetHeight;
-						var msg_outter = doc.getElementById("msg-outter");
-						msg_outter.style.paddingBottom = "50px";
+			// (function($, doc) {
+			var friendUserId;
+			var friendNickname;
+			var friendFaceImage;
+			mui.plusReady(function () {
+				var me = app.getUserGlobalInfo();
+				var chattingWebview = plus.webview.currentWebview();
+				chattingWebview.setStyle({
+					// 设置连天页面的软键盘样式
+					softinputMode: "adjustResize"
+				});
+				// 获取上一个页面传来的好友属性值
+				friendUserId = chattingWebview.friendUserId;
+				friendNickname = chattingWebview.friendNickname;
+				friendFaceImage = chattingWebview.friendFaceImage;
+				//设置好友昵称
+				document.getElementById("chatting-nickname").innerHTML = friendNickname;
+				// 设置聊天记录页面滑动到最底层
+				/* var areaMsg = document.getElementById("msg");
+				areaMsg.scrollTop = areaMsg.scrollHeight + areaMsg.offsetHeight; */
+				initChatHistory();
+				resizeScreen();
+				var msg_text = document.getElementById("msg-text");
+				var send_btn = document.getElementById("send");
+				msg_text.addEventListener("input", function() {
+					var msg_text_val = msg_text.value;
+					if (msg_text_val.length > 0) {
+						send_btn.setAttribute("class", "mui-btn-green");
+					} else {
+						send_btn.setAttribute("class", "mui-btn-gray");
 					}
-				})
-			}(mui, document));
+				});
+				// 当输入软键盘弹出后,对当前窗口进行监听
+				window.addEventListener("resize", function() {
+					resizeScreen();
+				});
+				// 绑定消息发送事件
+				send_btn.addEventListener("tap", function() {
+					// 获得网络连接状态
+					var netType = plus.networkinfo.getCurrentType();
+					if(msg_text.value.length == 0) {
+						app.showToast("请输入内容", "error");
+						return;
+					}
+					if(netType == 0 || netType == 1) {
+						console.log("未连接到网络");
+						app.showToast("未连接到网络", "error");
+						return;
+					}
+					// 发送消息
+					sendMsg(app.imgServerUrl + "/" + me.faceImage, msg_text.value);
+					// 发送消息后改变按钮颜色
+					send_btn.setAttribute("class", "mui-btn-gray");
+					// 构建ChatMsg
+					var chatMsg = new app.ChatMsg(me.id, friendUserId, msg_text.value, null);
+					// g构建dataContent
+					var dataContent = new app.DataContent(app.CHAT, chatMsg, null);
+					// 调用websocket发送消息到后端不能
+					var chatlistWebview = plus.webview.getWebviewById("chatlist");
+					// 调用该webview中的js脚本
+					chatlistWebview.evalJS("CHAT.chat('"+ JSON.stringify(dataContent) +"')");
+					// 保存聊天记录到本地
+					console.log("保存聊天消息到本地" + me.id +" " + friendUserId)
+					app.saveUserChatHistory(me.id, friendUserId, msg_text.value, 1);
+					// 清空消息框
+					msg_text.value = "";
+					
+				});
+			})
+			// }(mui, document));
+			// 发送消息
+			function sendMsg(faceImage, msg) {
+				var msgHtml = '<div class="me_lists">' + 
+								'<div class="header_img">' +
+									'<img src="'+ faceImage +'" width="40px" height="40px" />' +
+								'</div>' +
+								'<div class="msg-wrapper left">' +
+									'<p class="msg-right-green">'+ msg +'</p>' +
+								'</div>' +
+							'</div>';
+				var msg_list = document.getElementById("msg");
+				msg_list.insertAdjacentHTML("beforeend", msgHtml);
+				// 播放发送消息的铃声
+				playSendMsgSound();
+			}
+			// 发送消息
+			function receiveMsg(msg) {
+				console.log(friendFaceImage);
+				var msgHtml = '<div class="friend_lists">' + 
+								'<div class="header_img">' +
+									'<img src="'+ app.imgServerUrl + '/' + friendFaceImage +'" width="40px" height="40px" />' +
+								'</div>' +
+								'<div class="msg-wrapper right">' +
+									'<p class="msg-left-white">'+ msg +'</p>' +
+								'</div>' +
+							'</div>';
+				var msg_list = document.getElementById("msg");
+				msg_list.insertAdjacentHTML("beforeend", msgHtml);
+				// 播放接收消息的铃声
+				// playReceiveMsgSound();
+			}
+			// 播放（发送消息）铃声
+			function playSendMsgSound() {
+				var autoPlay = plus.audio.createPlayer("/mp3/send.mp3");
+				autoPlay.play();
+			}
+			// 播放（接受消息）铃声
+			function playReceiveMsgSound() {
+				var autoPlay = plus.audio.createPlayer("/mp3/di_didi.mp3");
+				autoPlay.play();
+			}
+			// 重新调整聊天窗口
+			function resizeScreen() {
+				var areaMsg = document.getElementById("msg");
+				// 设置聊天记录页面滑动到最底层
+				areaMsg.scrollTop = areaMsg.scrollHeight + areaMsg.offsetHeight;
+				/* var msg_outter = document.getElementById("msg-outter");
+				msg_outter.style.paddingBottom = "50px"; */
+			}
+			// 初始化聊天记录
+			function initChatHistory() {
+				var msgList = document.getElementById("msg");
+				var me = app.getUserGlobalInfo();
+				var myId = me.id;
+				var myFaceImg = me.faceImage;
+				var chatHistoryList = app.getUserChatHistory(myId, friendUserId);
+				console.log('本地聊天记录' + JSON.stringify(chatHistoryList))
+				var togetherHTML = '';
+				if(!chatHistoryList) {
+					return;
+				}
+				for(var i = 0;i < chatHistoryList.length;i++) {
+					var singHtml = chatHistoryList[i];
+					// 如果是我发出的消息
+					if(singHtml.flag == 1) {
+						togetherHTML += '<div class="me_lists">' + 
+										'<div class="header_img">' +
+											'<img src="'+ app.imgServerUrl + '/' + myFaceImg +'" width="40px" height="40px" />' +
+										'</div>' +
+										'<div class="msg-wrapper left">' +
+											'<p class="msg-right-green">'+ singHtml.msg +'</p>' +
+										'</div>' +
+									'</div>';
+					}
+					 else {
+						 togetherHTML += '<div class="friend_lists">' + 
+										'<div class="header_img">' +
+											'<img src="'+ app.imgServerUrl + '/' + friendFaceImage +'" width="40px" height="40px" />' +
+										'</div>' +
+										'<div class="msg-wrapper right">' +
+											'<p class="msg-left-white">'+ singHtml.msg +'</p>' +
+										'</div>' +
+									'</div>';
+					 }
+					 msgList.innerHTML = togetherHTML;
+				}
+			}
 		</script>
 	</body>
 

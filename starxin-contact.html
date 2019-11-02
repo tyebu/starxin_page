@@ -150,7 +150,7 @@
 						for (var j = 0 ; j < friendArray.length ; j ++ ) {
 							contactHtml += '' +
 										'<li friendUserId="' + friendArray[j].friendUserId + '" friendNickname="' + friendArray[j].friendNickname + '" friendFaceImage="' + friendArray[j].friendFaceImage + '" class="chat-with-friend mui-media mui-table-view-cell mui-indexed-list-item" style="padding: 8px 10px;">' +
-											'<img class="mui-media-object mui-pull-left" style="max-width: 35px;height: 35px;" src="' + app.imgServerUrl + friendArray[j].friendFaceImage + '"/>' +
+											'<img class="mui-media-object mui-pull-left" style="max-width: 35px;height: 35px;" src="' + app.imgServerUrl + "/" + friendArray[j].friendFaceImage + '"/>' +
 											'<div class="mui-media-body" style="line-height: 35px;">' + friendArray[j].friendNickname + '</div>' +
 										'</li>';
 						}
@@ -168,7 +168,7 @@
 					var friendUserId = this.getAttribute("friendUserId");
 					var friendNickname = this.getAttribute("friendNickname");
 					var friendFaceImage = this.getAttribute("friendFaceImage");
-					
+					console.log(friendFaceImage);
 					// 打开聊天子页面
 					mui.openWindow({
 						url: "chatting.html",

@@ -29,7 +29,9 @@
 				// 添加自定义事件，刷新好友请求，初始化websocket
 				window.addEventListener("refresh", function(){
 					loadingFriendRequests();
+					CHAT.init();
 				});
+				// CHAT.init();
 			});
 			// 加载好友请求记录列表
 			function loadingFriendRequests(){
@@ -113,6 +115,86 @@
 					}
 				});
 			}
+			// 构建聊天业务
+			window.CHAT = {
+				socket: null,
+				init: function() {
+					if (window.WebSocket) {
+						// 如果当前socket存在
+						if(CHAT.socket && CHAT.socket.readyState == WebSocket.OPEN) {
+							return false;
+						}
+						CHAT.socket = new WebSocket(app.nettyServerUrl);
+						/* CHAT.socket.onopen = function() {
+							console.log("连接建立成功...");
+						}, */
+						CHAT.socket.onopen = CHAT.wsopen,
+						CHAT.socket.onclose = CHAT.wsclose,
+						CHAT.socket.onerror = CHAT.wserror,
+						CHAT.socket.onmessage = CHAT.wsmessage
+					} else {
+						alert("浏览器不支持websocket协议...");
+					}
+				},
+				chat: function(msg) {
+					if(CHAT.socket && CHAT.socket.readyState == WebSocket.OPEN) {
+						CHAT.socket.send(msg);
+					} else {
+						CHAT.init();
+						setTimeout("CHAT('"+ msg +"')", "1000");
+						CHAT.socket.send(msg);
+					}
+				},
+				rechat: function(msg) {
+					CHAT.socket.send(msg);
+					console.log("重新发送消息");
+				},
+				// 连接成功
+				wsopen: function() {
+					console.log('连接成功');
+					var me = app.getUserGlobalInfo();
+					// 构建ChatMsg
+					var chatMsg = new app.ChatMsg(me.id, null, null, null);
+					// g构建dataContent
+					var dataContent = new app.DataContent(app.CONNECT, chatMsg, null);
+					CHAT.chat(JSON.stringify(dataContent));
+				
+				},
+				wsclose: function() {
+					console.log('连接关闭');
+				},
+				wserror: function() {
+					console.log('连接异常');
+				},
+				wsmessage: function(e) {
+					console.log('接收到消息'+e.data);
+					var dataContent = JSON.parse(e.data);
+					var action = dataContent.action;
+					if (action && action === app.PULL_FRIEND) {
+						fetchContactList();
+						return false;
+					}
+					
+					// 如果不是拉去好友列表则获取聊天记录
+					var chatMsg = dataContent.chatMsg;
+					var msg = chatMsg.msg;
+					var friendUserId = chatMsg.senderId;
+					var myId = chatMsg.receiverId;
+					//获得朋友的聊天页面 
+					var friendWebview = plus.webview.getWebviewById("chatting-" + friendUserId);
+					if(friendWebview != null) {
+						// 调用该页面js脚本
+						friendWebview.evalJS("receiveMsg('"+ msg +"')");
+						friendWebview.evalJS("resizeScreen()");
+					}
+					// 接收到消息之后对消息进行签收
+					var dataContent = new app.DataContent(app.SIGNED, null, chatMsg.msgId);
+					CHAT.chat(JSON.stringify(dataContent));
+					app.saveUserChatHistory(myId, friendUserId, msg, 2);
+				}
+				
+			};
+			
 		</script>
 	</body>
 

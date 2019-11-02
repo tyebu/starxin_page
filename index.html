@@ -19,7 +19,7 @@
 </head>
 <body>
 	<header class="mui-bar mui-bar-nav title">
-		<h1 class="mui-title title-color"><b>星信</b></h1>
+		<h1 class="mui-title title-color" id="starxin_title"><b>星信</b></h1>
 	</header>
 	<nav class="mui-bar mui-bar-tab">
 		<a class="mui-tab-item mui-active" tab-index="chatlist">
@@ -69,6 +69,8 @@
 			mui.back = function() {
 				return false;
 			}
+			// 网络连接监听
+			netChangeSwitch();
 			// var cid = plus.push.getClientInfo().clientid;
 			var indexWebview = plus.webview.currentWebview();
 			//向当前主页追加子页的四张indexWebview
@@ -102,6 +104,25 @@
 			// 延时加载
 			setTimeout("initData()", "1000");
 		});
+		
+		//监听网络状态
+		function netChangeSwitch() {
+			document.addEventListener("netchange", function() {
+				// 网络状态的获取和判断
+				var netType = plus.networkinfo.getCurrentType();
+				console.log(netType);
+				if(netType != 0 && netType != 1) {
+					console.log("网络连接良好");
+					// 网络连接良好
+					var starxinTitle = document.getElementById("starxin_title");
+					starxinTitle.innerHTML = "<b>星信</b>";
+				} else {
+					// 未连接到网络
+					var starxinTitle = document.getElementById("starxin_title");
+					starxinTitle.innerHTML = "<b>星信(未连接到网络)</b>";
+				}
+			});
+		}
 		// 预加载
 		function initData() {
 			var chatlist = plus.webview.getWebviewById("chatlist");
