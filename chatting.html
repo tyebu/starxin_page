@@ -127,6 +127,8 @@
 					// 保存聊天记录到本地
 					console.log("保存聊天消息到本地" + me.id +" " + friendUserId)
 					app.saveUserChatHistory(me.id, friendUserId, msg_text.value, 1);
+					// 保存聊天快照到本地
+					app.saveUserChatSnapshot(me.id, friendUserId, msg_text.value, true);
 					// 清空消息框
 					msg_text.value = "";
 					
